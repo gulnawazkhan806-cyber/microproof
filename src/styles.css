@@ -67,6 +67,80 @@
   }
 }
 
+.app-stage {
+  min-height: 100dvh;
+  background: var(--color-paper);
+}
+
+.app-phone {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: calc(env(safe-area-inset-top) + 0.7rem) 1rem 0.7rem;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-paper);
+}
+
+.app-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.25rem 1rem 1.5rem;
+}
+
+.app-tabs {
+  border-top: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-sheet) 94%, transparent);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.device-status {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .app-stage {
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+    background: var(--color-ink);
+  }
+
+  .app-phone {
+    width: min(26.5rem, 100%);
+    height: min(52rem, calc(100dvh - 2.5rem));
+    min-height: 0;
+    overflow: hidden;
+    border: 0.7rem solid var(--color-ink);
+    border-radius: 2.6rem;
+    box-shadow:
+      0 0 0 1px rgba(243, 239, 230, 0.14),
+      0 28px 70px -24px rgba(0, 0, 0, 0.72);
+  }
+
+  .device-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.35rem 0.1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .app-bar {
+    padding-top: 0.35rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -83,8 +157,23 @@
     display: none !important;
   }
 
-  body {
+  body,
+  .app-stage,
+  .app-phone {
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     background: white !important;
+  }
+
+  .app-scroll {
+    overflow: visible !important;
+    padding: 0 !important;
   }
 
   .certificate {

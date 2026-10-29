@@ -107,11 +107,12 @@ const NAV = [
   { to: "/identity", label: "Key", icon: KeyRound, on: (path: string) => path.startsWith("/identity") },
 ] as const;
 
-export function Shell({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
+export function Shell({ children }: { children: ReactNode }) {
   const db = useDb();
   const mounted = useMounted();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [cryptoOk, setCryptoOk] = useState(true);
+  const [clock, setClock] = useState("");
 
   useEffect(() => {
     ensureIdentity();
@@ -128,52 +129,64 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
     };
   }, []);
 
+  useEffect(() => {
+    const tick = () =>
+      setClock(new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }));
+    tick();
+    const id = window.setInterval(tick, 15000);
+    return () => window.clearInterval(id);
+  }, []);
+
   const fp = mounted && db.identity ? fingerprint(db.identity.publicKey) : "···· ····";
 
   return (
-    <div className="min-h-dvh">
-      <header className="no-print sticky top-0 z-20 border-b border-line bg-paper">
-        <div className={cn("mx-auto flex w-full items-center justify-between gap-3 px-4 py-3", wide ? "max-w-5xl" : "max-w-lg")}>
-          <Link to="/" className="flex min-w-0 items-center gap-2">
-            <SealMark className="size-8 shrink-0 text-seal" />
-            <span className="font-serif text-xl leading-none">MicroProof</span>
-          </Link>
-          <Link to="/identity" className="shrink-0 text-right">
-            <span className="block text-xs text-muted">Your key</span>
-            <span className="block text-sm font-semibold tabular-nums tracking-wide">{fp}</span>
-          </Link>
+    <div className="app-stage">
+      <div className="app-phone">
+        <div className="device-status no-print" aria-hidden>
+          <span>{clock}</span>
         </div>
-      </header>
-      <main className={cn("mx-auto w-full px-4 pt-6 pb-28", wide ? "max-w-5xl" : "max-w-lg")}>
-        {cryptoOk ? null : (
-          <p role="alert" className="mb-4 rounded-xl bg-fault/10 px-3 py-2 text-sm text-fault">
-            This browser can't produce Ed25519 signatures, so agreements can't be sealed here.
-          </p>
-        )}
-        {children}
-      </main>
-      <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-line bg-sheet" aria-label="Primary">
-        <ul className="mx-auto grid max-w-lg grid-cols-4">
-          {NAV.map((item) => {
-            const active = item.on(pathname);
-            const Icon = item.icon;
-            return (
-              <li key={item.to}>
-                <Link
-                  to={item.to}
-                  className={cn(
-                    "flex h-16 flex-col items-center justify-center gap-1 text-xs font-semibold",
-                    active ? "text-seal" : "text-muted",
-                  )}
-                >
-                  <Icon className="size-5" aria-hidden />
-                  {item.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+        <header className="app-bar no-print">
+          <Link to="/" className="flex min-w-0 items-center gap-2">
+            <SealMark className="size-7 shrink-0 text-seal" />
+            <span className="font-serif text-lg leading-none">MicroProof</span>
+          </Link>
+          <Link to="/identity" className="shrink-0 rounded-full bg-sheet px-3 py-1.5 text-sm font-semibold tracking-wide tabular-nums shadow-border">
+            {fp}
+          </Link>
+        </header>
+        <main className="app-scroll">
+          {cryptoOk ? null : (
+            <p role="alert" className="mb-4 rounded-xl bg-fault/10 px-3 py-2 text-sm text-fault">
+              This phone can't produce Ed25519 signatures, so agreements can't be sealed here.
+            </p>
+          )}
+          {children}
+        </main>
+        <nav className="app-tabs no-print" aria-label="Primary">
+          <ul>
+            {NAV.map((item) => {
+              const active = item.on(pathname);
+              const Icon = item.icon;
+              return (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    className={cn(
+                      "flex h-16 flex-col items-center justify-center gap-0.5 text-xs font-semibold",
+                      active ? "text-seal" : "text-muted",
+                    )}
+                  >
+                    <span className={cn("flex size-8 items-center justify-center rounded-full", active && "bg-seal/10")}>
+                      <Icon className="size-5" aria-hidden />
+                    </span>
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
       <Toaster position="top-center" />
     </div>
   );

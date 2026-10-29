@@ -105,7 +105,7 @@ export function ProximityBench({ agreement }: { agreement: Agreement }) {
           Each scan decodes the QR picture.
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-2 md:hidden">
+      <div className="grid grid-cols-2 gap-2">
         <Button variant={phone === "a" ? "ink" : "line"} onClick={() => setPhone("a")}>
           Your phone
         </Button>
@@ -118,8 +118,8 @@ export function ProximityBench({ agreement }: { agreement: Agreement }) {
           {error}
         </p>
       ) : null}
-      <div className="relative grid gap-4 md:grid-cols-2">
-        <section className={phone === "b" ? "min-w-0 max-md:hidden" : "min-w-0"}>
+      <div className="relative grid gap-4">
+        <section className={phone === "b" ? "hidden" : "min-w-0"}>
           <div className="grid gap-4 rounded-2xl bg-sheet p-4 shadow-border">
             <p className="text-xs font-semibold tracking-widest text-muted uppercase">Your phone</p>
             {acked ? (
@@ -145,7 +145,7 @@ export function ProximityBench({ agreement }: { agreement: Agreement }) {
             )}
           </div>
         </section>
-        <section className={phone === "a" ? "min-w-0 max-md:hidden" : "min-w-0"}>
+        <section className={phone === "a" ? "hidden" : "min-w-0"}>
           <div className="grid gap-4 rounded-2xl bg-sheet p-4 shadow-border">
             <p className="text-xs font-semibold tracking-widest text-muted uppercase">Their phone</p>
             {phase === "idle" && !acked ? (

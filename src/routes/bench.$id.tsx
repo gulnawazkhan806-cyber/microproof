@@ -12,7 +12,7 @@ function BenchPage() {
   const agreement = useDb().agreements.find((item) => item.id === id);
 
   return (
-    <Shell wide>
+    <Shell>
       <div className="mb-4">
         <Link to="/handshake/$id" params={{ id }} className="inline-flex items-center gap-1 text-sm font-semibold text-muted">
           <ArrowLeft className="size-4" aria-hidden />

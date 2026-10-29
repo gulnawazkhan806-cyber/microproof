@@ -104,7 +104,7 @@ export function CodeCapture({ onText }: { onText: (text: string) => void }) {
           {error}
         </p>
       ) : null}
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-2">
         <Button variant={cameraOn ? "ink" : "line"} onClick={() => setCameraOn((on) => !on)}>
           <Camera className="size-4" aria-hidden />
           {cameraOn ? "Stop camera" : "Use camera"}
