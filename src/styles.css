@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f3efe6;
+  --color-sheet: #fffcf6;
+  --color-ink: #1c1915;
+  --color-muted: #5c564e;
+  --color-line: #e3dcd0;
+  --color-seal: #145c45;
+  --color-seal-ink: #f3faf6;
+  --color-brass: #6e5126;
+  --color-fault: #8c3a2b;
+  --color-fault-ink: #fff8f6;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --shadow-border:
+    0px 0px 0px 1px rgba(28, 25, 21, 0.08),
+    0px 1px 2px -1px rgba(28, 25, 21, 0.06),
+    0px 10px 24px -16px rgba(28, 25, 21, 0.28);
+  --shadow-border-hover:
+    0px 0px 0px 1px rgba(28, 25, 21, 0.12),
+    0px 1px 2px -1px rgba(28, 25, 21, 0.08),
+    0px 12px 28px -16px rgba(28, 25, 21, 0.32);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: clip;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    text-wrap: balance;
+    font-weight: 560;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-seal) 24%, white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-seal);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .certificate {
+    box-shadow: none !important;
+  }
+}
