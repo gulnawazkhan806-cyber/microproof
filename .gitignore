@@ -7,4 +7,8 @@ artifacts
 .DS_Store
 .grok/*
 !.grok/app-env.json
+mobile/node_modules
+mobile/.expo
+mobile/dist
+
 
